@@ -2,25 +2,45 @@ import os
 import re
 import random
 
-# === 言語と拡張子マップ ===
+# === 言語と拡張子の対応マップ ===
 EXT_LANG_MAP = {
-    ".c": "c", ".cc": "cpp", ".cpp": "cpp", ".cxx": "cpp", ".h": "cpp", ".hpp": "cpp",
-    ".py": "python", ".java": "java", ".js": "javascript", ".ts": "typescript",
-    ".go": "go", ".rs": "rust", ".swift": "swift", ".cs": "csharp"
+    ".c": "c", ".cc": "cpp", ".cpp": "cpp", ".cxx": "cpp", ".h": "cpp", ".hpp": "cpp", ".hxx": "cpp", ".hh": "cpp", ".ino": "cpp",
+    ".java": "java", ".kt": "kotlin", ".kts": "kotlin", ".scala": "scala", ".groovy": "groovy",
+    ".cs": "csharp", ".vb": "vbnet",
+    ".py": "python",
+    ".js": "javascript", ".ts": "typescript", ".jsx": "javascript", ".tsx": "typescript",
+    ".html": "html", ".htm": "html", ".css": "css",
+    ".php": "php", ".rb": "ruby",
+    ".sh": "shell", ".bash": "shell",
+    ".go": "go", ".rs": "rust",
+    ".swift": "swift", ".m": "objective-c", ".mm": "objective-c++",
+    ".sql": "sql"
 }
 
 # === コメントパターンマップ ===
 COMMENT_PATTERNS = {
-    "c":    {"line": r'//.*',              "block": r'/\*[\s\S]*?\*/'},
-    "cpp":  {"line": r'//.*',              "block": r'/\*[\s\S]*?\*/'},
-    "java": {"line": r'//.*',              "block": r'/\*[\s\S]*?\*/'},
-    "csharp": {"line": r'//.*',            "block": r'/\*[\s\S]*?\*/'},
-    "go":   {"line": r'//.*',              "block": r'/\*[\s\S]*?\*/'},
-    "rust": {"line": r'//.*',              "block": r'/\*[\s\S]*?\*/'},
-    "swift":{"line": r'//.*',              "block": r'/\*[\s\S]*?\*/'},
-    "javascript": {"line": r'//.*',        "block": r'/\*[\s\S]*?\*/'},
-    "typescript": {"line": r'//.*',        "block": r'/\*[\s\S]*?\*/'},
-    "python":{"line": r'#.*',              "block": r'("""[\s\S]*?""")|(\'\'\'[\s\S]*?\'\'\')'},
+    "c": {"line": r'//.*',              "block": r'/\*[\s\S]*?\*/'},
+    "cpp": {"line": r'//.*',            "block": r'/\*[\s\S]*?\*/'},
+    "objective-c": {"line": r'//.*',    "block": r'/\*[\s\S]*?\*/'},
+    "objective-c++": {"line": r'//.*',  "block": r'/\*[\s\S]*?\*/'},
+    "swift": {"line": r'//.*',          "block": r'/\*[\s\S]*?\*/'},
+    "go": {"line": r'//.*',             "block": r'/\*[\s\S]*?\*/'},
+    "rust": {"line": r'//.*',           "block": r'/\*[\s\S]*?\*/'},
+    "java": {"line": r'//.*',           "block": r'/\*[\s\S]*?\*/'},
+    "kotlin": {"line": r'//.*',         "block": r'/\*[\s\S]*?\*/'},
+    "scala": {"line": r'//.*',          "block": r'/\*[\s\S]*?\*/'},
+    "groovy": {"line": r'//.*',         "block": r'/\*[\s\S]*?\*/'},
+    "csharp": {"line": r'//.*',         "block": r'/\*[\s\S]*?\*/'},
+    "vbnet": {"line": r"'.*",           "block": None},
+    "python": {"line": r'#.*',          "block": r'("""[\s\S]*?""")|(\'\'\'[\s\S]*?\'\'\')'},
+    "javascript": {"line": r'//.*',     "block": r'/\*[\s\S]*?\*/'},
+    "typescript": {"line": r'//.*',     "block": r'/\*[\s\S]*?\*/'},
+    "css": {"line": None,               "block": r'/\*[\s\S]*?\*/'},
+    "html": {"line": None,              "block": r'<!--[\s\S]*?-->'},
+    "php": {"line": r'//.*|#.*',        "block": r'/\*[\s\S]*?\*/'},
+    "ruby": {"line": r'#.*',            "block": None},
+    "shell": {"line": r'#.*',           "block": None},
+    "sql": {"line": r'--.*',            "block": r'/\*[\s\S]*?\*/'}
 }
 
 # === パラメータ設定 ===
