@@ -24,9 +24,9 @@ COMMENT_PATTERNS = {
 }
 
 # === パラメータ設定 ===
-SOURCE_DIR   = "./source_dir"     # オリジナルソースのディレクトリ
-OUTPUT_BASE  = "./output_versions"# 出力先ベースディレクトリ
-VERSIONS     = [0, 25, 50, 100]      # v0, v25, v50, v100
+SOURCE_DIR   = "./source"     # オリジナルソースのディレクトリ
+OUTPUT_BASE  = "./output"# 出力先ベースディレクトリ
+VERSIONS     = [5, 20, 75, 100]      # v0, v25, v50, v100
 
 os.makedirs(OUTPUT_BASE, exist_ok=True)
 
@@ -76,4 +76,4 @@ for root, _, files in os.walk(SOURCE_DIR):
             with open(save_path, "w", encoding="utf-8") as out:
                 out.write(''.join(new_code))
 
-print("✅ 段階的コメント削除ファイルを保存しました！")
+print("段階的コメント削除ファイルを保存しました！")
